@@ -26,9 +26,17 @@ In this year's work, we focused on building a ML model that can decide between O
 
 We implemented everything on a forked LLVM Repo. Everything we implemented during the GSoC period can be found in [this diff](https://github.com/tarinduj/llvm-project/compare/a24b1d1b2033b6bb17b7ad1c58b15d34e078fdb8..bddefff9d64a6c86c921640105ff15f0a1cc64e3).
 
-Introduce more code features and identify the most relevant features.
+We started off the project by extending our code features set from last year, by adding new code features. Next, we modified the `<PassManager>` to be able to switch the pass pipeline, with a logic similar to `<PassInstrumentation::runBeforePass()>`. We also modified the `<PassManager::addPass()>` method and the `<PassBuilder>` to access the optimization levels associated with the pass from within the `<PassManager>`.
 
-•Extend this to a larger dataset like SPEC. However, there is a problem in encoding a larger dataset.  The hyperpass pipeline gets longer, thus takes more memory and computation time.•Go beyond tabular code features by encoding the CFG or Calling Graph in a graph data structure and use graphneural networks for predictions.•Extending the local predictions for more passes beyond function passes.•Come up with a few different pipelines for beyond the current LLVM optimization pipelines.  One approach tocome  up  with  these  new  pipelines  would  be  to  use  RL  to  search  through  all  combination  pass  pipelines,  likeHuang et al.  [1] have suggested.  Search space could be reduced by identifying dependencies between passes andgrouping them together
+We wrote two new passes for LLVM.
+1. MLPassPipelinePredictor: This pass can predict optimization levels for functions using machine learning. We also utilize it to dump training data.
+2. FunctionAnnotation: This pass is used to annotate functions with the the optimization level predicted by the `<MLPassPipelinePredictor>`. 
+
+We embeded the `<FunctionAnnotationPass>` in the pass pipeline after `<InstCombinePass>`. Then used it to extrat our training dataset. The script we are using to create the dataset can be found [here](https://github.com/tarinduj/llvm-mlpm).
+
+We are currently working on analyzing the dataset and building the prediction model.
+
+[Take OptimizationLevel Class Out of the Pass Builder](https://reviews.llvm.org/D107025) was the the only patch we could upstream within the GSoC period. Other patchs and the RFC are still a work in progress. 
 
 ## Resources
 
