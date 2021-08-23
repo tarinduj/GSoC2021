@@ -34,7 +34,7 @@ We wrote two new passes for LLVM.
 
 We embeded the `<FunctionAnnotationPass>` in the pass pipeline after `<InstCombinePass>`. Then used it to extrat our training dataset. The script we are using to create the dataset can be found [here](https://github.com/tarinduj/llvm-mlpm).
 
-We are currently working on analyzing the dataset and building the prediction model.
+We are currently working on analyzing the dataset and building the prediction model. Jupyter Notebooks we used to analyze the datasets can be found [here](https://github.com/tarinduj/GSoC2021/tree/master/notebooks).
 
 [Take OptimizationLevel Class Out of the Pass Builder](https://reviews.llvm.org/D107025) was the the only patch we could upstream within the GSoC period. Other patchs and the RFC are still a work in progress. 
 
